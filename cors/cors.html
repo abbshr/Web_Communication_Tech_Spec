@@ -1,0 +1,14 @@
+
+<body></body>
+
+<script>
+  var iframe = document.createElement('iframe');
+  iframe.src = 'http://localhost:3000';
+  iframe.onload = function (e) {
+    this.onload = function (e) {
+      console.log(iframe.contentWindow.name);
+    };
+    iframe.contentWindow.location = 'http://github.com';
+  };
+  document.body.appendChild(iframe);
+</script>
