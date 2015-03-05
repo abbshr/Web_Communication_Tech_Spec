@@ -1,7 +1,6 @@
 ## Web原生通信技术一览 (In progress)
 
-![data](http://static.hdw.eweb4.com/media/wallpapers_1920x1200/minimalistic/1/1/binary-rain-minimalistic-hd-wallpaper-1920x1200-3871.png)
-
+![data](http://userpages.uni-koblenz.de/~staab/images/tagcloud.png)
 
 
 > 请爱护浏览器! 没有flash, 就没有杀害.
