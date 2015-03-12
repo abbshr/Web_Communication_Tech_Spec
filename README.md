@@ -37,7 +37,7 @@ iframe 服务器端并不返回直接显示在页面的数据，而是返回对�
 ### Chapter 3: Trick on CORS
 
 #### document.domain
-对于主域相同而子域不同的例子，可以通过设置`document.domain`的办法来解决。具体的做法是可以在http://www.a.com/a.html和http://script.a.com/b.html两个文件中分别加上`document.domain = 'a.com'`, 然后通过a.html文件中创建一个`iframe`，去控制`iframe.contentDocument`，这样两个js文件之间就可以"交互"了.
+对于主域相同而子域不同的例子，可以通过设置`document.domain`的办法来解决。具体的做法是可以在`http://www.a.com/a.html`和`http://script.a.com/b.html`两个文件中分别加上`document.domain = 'a.com'`, 然后通过a.html文件中创建一个`iframe`，去控制`iframe.contentDocument`，这样两个js文件之间就可以"交互"了.
 
 #### location.hash
 假设域名a.com下的文件cs1.html要和cnblogs.com域名下的cs2.html传递信息，cs1.html首先创建自动创建一个隐藏的iframe，iframe的src指向cnblogs.com域名下的cs2.html页面，这时的`hash`值可以做参数传递用。cs2.html响应请求后再将通过修改cs1.html的hash值来传递数据（由于两个页面不在同一个域下IE、Chrome不允许修改`parent.location.hash`的值，所以要借助于a.com域名下的一个代理iframe:
