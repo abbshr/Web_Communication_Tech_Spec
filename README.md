@@ -3,7 +3,7 @@
 ![data](http://userpages.uni-koblenz.de/~staab/images/tagcloud.png)
 
 
-> 请爱护浏览器! 没有flash, 就没有杀害.
+> 请爱护浏览器! No Flash, No Hurt.
 
 > use full stack JavaScript technology for easier Web Development
 
@@ -12,6 +12,64 @@
 [`./pull`](https://github.com/abbshr/Web_Communication_Tech_Spec/tree/master/pull)
 
 #### `XMLHTTPRequest`
+
+#### `fetch`
+这是一个让开发者激动的新标准规范API, 为何这么说?
+
+在不丧失功能的基础上变得易用, 就是这样. 想想Promise + jQuery Syntax. yeah! that's right.
+
+fetch是用来做什么的?
+
+>  fetch is an easier way to make web requests and handle responses than using an XMLHttpRequest
+
+就是说fetch是用来取代XMLHTTPRequest的全新API, 这个[页面](https://fetch.spec.whatwg.org/)对其进行了详细说明.
+
+来瞧瞧fetch的用法:
+
+```coffee
+# in coffee
+fetch '/getjsondata'
+.then (res) ->
+	res.json() if res.ok
+.then (json) ->
+	console.log json
+.catch (err) ->
+	console.error err.message
+```
+
+放眼望去全是Promise哈, 赏心悦目. fetch会返回一个Promise对象, 他的第一个resolve函数的参数是Response对象的实例, 代表一个原始的响应流, 其上可以继续调用如`.json()`,`.text()`,`.blob()`等方法读取response流并继续返回一个新的promise.
+
+fetch支持第二个参数, 是一个配置对象, 包括method, headers, body等, 比如构造一个表单上传请求:
+
+```coffee
+fetch '/formupload',
+	method: 'POST'
+	body: new FormData document.querySelector '#form'
+.then (res) ->
+	#...
+```
+
+唯一一点不同于XMLHTTPRequest的是隐私策略, fetch默认禁止发送浏览器中保存的隐私数据, 如cookies. 这时需要session的应用就该在fetch调用中增加一个`credentials: 'same-origin'`:
+
+```coffee
+fetch '/need4session', credentials: 'same-origin'
+```
+
+这样就可以在请求中附带cookies数据了.
+
+但要说现在广泛使用fetch有点为时过早了, 毕竟各大浏览器厂商对fetch的支持情况很不乐观. 为此github发布了一个polyfill项目[fetch](https://github.com/github/fetch)用以兼容现有的浏览器.
+
+fetch的更底层支持也是暴露给开发者的: 代表请求的`Request`对象, 代表响应的`Response`对象, 以及代表HTTP请求头的`Header`对象. 在Chapter 6的Stream一章将会提到他们.
+
+
+#### `beacon`
+你可能注意到了浏览器在关闭标签时无法完整发送HTTP请求, 也就是`"unload"`事件上没法做异步请求, 会被浏览器忽略掉. 然而同步请求会在一定程度上影响用户的体验.
+
+为弥补这个不足, W3C小组规定了这个API. 使用起来很简单: `navigator.sendBeacon(url, data);`. 这个调用会将请求入队, 再由浏览器的另外线程向服务器发送**POST**请求, 因而不会影响当前页面的关闭, 由于允许了async, 当然请求也会被完整发送了.
+
+`sendBeacon()`的返回值是一个Boolean, 当返回`true`时, 意味着浏览器已经**成功将该请求缓存起来等待处理**, 而不是已经成功发送HTTP请求, 准确来说请求是在unload事件触发后被发送的.
+
+详见[W3C Beacon spec](http://www.w3.org/TR/beacon/#sec-beacon)
 
 ### Chapter 2: Server Push (Comet)
 
@@ -51,7 +109,8 @@ iframe 服务器端并不返回直接显示在页面的数据，而是返回对�
 
 #### dynamic < script > tag
 #### JSONP
-#### XMLHTTPRequest 2
+#### XMLHTTPRequest 2 specifications
+#### fetch CORS
 
 允许服务器设置响应头`Access-Control-Allow-Origin`字段, 来控制跨域资源访问.
 
@@ -88,3 +147,5 @@ iframe 服务器端并不返回直接显示在页面的数据，而是返回对�
 ##### Audio
 
 ##### Canvas & Video
+
+### Chapter 6: underlying Stream in Browser
