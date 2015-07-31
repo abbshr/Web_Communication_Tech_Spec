@@ -149,3 +149,16 @@ iframe 服务器端并不返回直接显示在页面的数据，而是返回对�
 ##### Canvas & Video
 
 ### Chapter 6: underlying Stream in Browser
+
+这部分描述的是非常偏底层I/O的浏览器API, 并且Chrome中也尚未全部公开. 但基于这些底层API已经实现了更具普遍意义的功能，比如`fetch`, `Response`,`Request`等.
+
+> More generally, the platform is full of streaming abstractions waiting to be expressed as streams: multimedia streams, file streams, interprocess communication, and more benefit from being able to process data incrementally instead of buffering it all into memory and processing it in one go. By providing the foundation for these streams to be exposed to developers, the Streams Standard enables use cases like:
+
+> + Video effects: piping a readable video stream through a transform stream that applies effects in real time.
+
+> + Decompression: piping a file stream through a transform stream that selectively decompresses files from a .tgz archive, turning them into img elements as the user scrolls through an image gallery.
+
+> + Image decoding: piping a HTTP response stream through a transform stream that decodes bytes into bitmap data, and then through another transform that translates bitmaps into PNGs. If installed inside the fetch hook of a service worker, this would allow developers to transparently polyfill new image formats.
+
+
+详见：[Stream Spec](https://streams.spec.whatwg.org/)
